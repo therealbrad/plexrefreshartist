@@ -43,7 +43,7 @@ This is especially useful for dropping Music Videos into a [Global Music Videos 
 $ python3 plexrefreshartist.py -s http://<your_plex_server>:<port> -t <plex_token> -f /Media/Library/music_videos/
 ```
 
-### To Do
+## To Do
 - [ ] Refresh only updated folders since the last time the script ran
 
 ## Contributing

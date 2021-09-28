@@ -11,14 +11,12 @@ try:
     for currentArgument, currentValue in arguments:
 
         if currentArgument in ("-h", "--Help"):
-            print ("Refreshes Plex Music Artist Metadata.")
             print ("-a    Artists to refresh (partial match) (optional)")
             print ("-f    Parent folder of Artists (optional)")
             print ("-s    Plex Server Base URL with protocol & port")
             print ("-t    Plex Auth Token")
-            print ("Either use -a OR -f to provide a list of Artists to refresh.")
             print ("\nIf neither -f or -a are supplied, all Artists will be refreshed!")
-            exit
+            sys.exit()
 
         elif currentArgument in ("-a", "--Artist"):
             AUDIO_ARTIST = currentValue

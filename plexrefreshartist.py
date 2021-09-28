@@ -1,4 +1,4 @@
-import os, getopt, sys
+import os, time, getopt, sys, json
 argumentList = sys.argv[1:]
 options = "hf::a::s:t:"
 long_options = ["Help", "Artist"]
@@ -35,24 +35,44 @@ except getopt.error as err:
 
 from plexapi.server import PlexServer
 plex = PlexServer(PLEX_SERVER, PLEX_TOKEN)
+CACHE_FILE = "./.cache"
 AUDIO_SECTION = 'Music'
 
 music = plex.library.section(AUDIO_SECTION)
-artists = []
+artists = {}
+cache_artists = {}
 
 if 'AUDIO_ARTIST' in locals():
     artists.append(AUDIO_ARTIST)
 
 if 'ARTIST_FOLDER' in locals():
+    # Check if a cache exists from last run
+    if os.path.exists(CACHE_FILE):
+        with open(CACHE_FILE) as json_file:
+            cache_artists = json.load(json_file)
     for artist in os.scandir(ARTIST_FOLDER):
         if artist.is_dir():
-            artists.append(artist.name)
+            lastMod = max(os.path.getmtime(root) for root,_,_ in os.walk(artist.path))
+            #print('Found %s %s' % (artist.name,lastMod))
+            if cache_artists.get(artist.name):
+                if lastMod > cache_artists.get(artist.name):
+                    artists[artist.name] = lastMod
+                    cache_artists[artist.name] = lastMod
+                #else:
+                #    print('Skipping %s because %s is not greater than %s' % (artist.name,lastMod,cache_artists[artist.name]))
+            else:
+                artists[artist.name] = lastMod
+                cache_artists[artist.name] = lastMod
 
 for each_artist in artists:
     for artist in music.search(each_artist):
-        print('Refreshing: %s' % (artist.title))
         try:
-            result = artist.refresh()
+            print('Refreshing: %s' % (artist.title))
+            #result = artist.refresh()
         except:
             print("WARN: Refresh taking too long. Moving onto the next Artist.")
+#write out new cache
+#print(cache_artists)
+with open(CACHE_FILE, 'w') as outfile:
+    json.dump(cache_artists, outfile)
 

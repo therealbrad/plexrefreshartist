@@ -71,8 +71,9 @@ for each_artist in artists:
             #result = artist.refresh()
         except:
             print("WARN: Refresh taking too long. Moving onto the next Artist.")
-#write out new cache
-#print(cache_artists)
-with open(CACHE_FILE, 'w') as outfile:
+
+#write out new cache if using folders
+if 'ARTIST_FOLDER' in locals():
+    with open(CACHE_FILE, 'w') as outfile:
     json.dump(cache_artists, outfile)
 

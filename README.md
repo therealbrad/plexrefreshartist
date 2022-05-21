@@ -37,8 +37,8 @@ Refreshing: Purple Mountains
 
 ```
 
-### Refresh Artists with an existing Folder
-This is especially useful for dropping Music Videos into a [Global Music Videos Folder](https://support.plex.tv/articles/205568377-adding-local-artist-and-music-videos/) and don't want to manually refresh each Artist's metadata through the Plex UI.
+### Refresh All Artists with New Videos
+Specify your [Global Music Videos Folder](https://support.plex.tv/articles/205568377-adding-local-artist-and-music-videos/) to only refresh Artists with videos added since the last refresh.
 ```
 $ python3 plexrefreshartist.py -s http://<your_plex_server>:<port> -t <plex_token> -f /Media/Library/music_videos/
 ```

@@ -44,7 +44,7 @@ $ python3 plexrefreshartist.py -s http://<your_plex_server>:<port> -t <plex_toke
 ```
 
 ## To Do
-- [x] Refresh only updated folders since the last time the script ran
+- [x] ~~Refresh only updated folders since the last time the script ran~~
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

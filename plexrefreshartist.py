@@ -46,6 +46,7 @@ if 'AUDIO_ARTIST' in locals():
     artists.append(AUDIO_ARTIST)
 
 if 'ARTIST_FOLDER' in locals():
+    print('Scanning Artists in %s' % (ARTIST_FOLDER))
     # Check if a cache exists from last run
     if os.path.exists(CACHE_FILE):
         with open(CACHE_FILE) as json_file:
@@ -58,8 +59,6 @@ if 'ARTIST_FOLDER' in locals():
                 if lastMod > cache_artists.get(artist.name):
                     artists[artist.name] = lastMod
                     cache_artists[artist.name] = lastMod
-                #else:
-                #    print('Skipping %s because %s is not greater than %s' % (artist.name,lastMod,cache_artists[artist.name]))
             else:
                 artists[artist.name] = lastMod
                 cache_artists[artist.name] = lastMod
@@ -68,12 +67,10 @@ for each_artist in artists:
     for artist in music.search(each_artist):
         try:
             print('Refreshing: %s' % (artist.title))
-            #result = artist.refresh()
+            result = artist.refresh()
         except:
             print("WARN: Refresh taking too long. Moving onto the next Artist.")
 
-#write out new cache if using folders
-if 'ARTIST_FOLDER' in locals():
-    with open(CACHE_FILE, 'w') as outfile:
+#write out new cache
+with open(CACHE_FILE, 'w') as outfile:
     json.dump(cache_artists, outfile)
-
